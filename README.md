@@ -5,8 +5,6 @@ In order to run this project following prerequsites are necessary on your machin
 https://www.docker.com/ - installed and running
 
 Then you need to copy this repository and run following commends in order achieve following results:
-- starting project
-make run
+- starting projec: make run
 
-- stopping project
-make stop
+- stopping project: make stop
