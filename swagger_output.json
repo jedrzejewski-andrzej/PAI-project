@@ -1,0 +1,83 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "swagger": "2.0",
+    "title": "Projekt zaliczeniowy",
+    "description": "Dokumentacja REST API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8081",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/listGames": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Pobiera liste wszstkich zdefinowanych w bazie meczy",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/{name}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Pobiera dane meczy dla kraju o podanej nazwie",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nazwa kraju"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/addGame": {
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "description": "Pobiera uzytkownika o podanym ID",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "data": {
+                  "example": "any"
+                },
+                "kraj1": {
+                  "example": "any"
+                },
+                "kraj2": {
+                  "example": "any"
+                },
+                "wynik_kraj_1": {
+                  "example": "any"
+                },
+                "wynik_kraj_2": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Game data"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}

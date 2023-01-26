@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+<head>
+<title>Projekt</title>
+<script>
+    function showJSON(json) {
+        document.forms['form1']['data'].value=json[0].data;
+        document.forms['form1']['kraj1'].value=json[0].kraj1;
+        document.forms['form1']['kraj2'].value=json[0].kraj2;
+        document.forms['form1']['wynik_kraj_1'].value=json[0].wynik_kraj_1;
+        document.forms['form1']['wynik_kraj_2'].value=json[0].wynik_kraj_2;
+    }
+
+    function renderTable(json) {
+        var table = document.getElementById("gamesTable");
+        for (let i=0; i<json.length;i++) {
+            var row = table.insertRow(i+1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            cell1.innerHTML = json[i].id;
+            cell2.innerHTML = json[i].data;
+            cell3.innerHTML = json[i].kraj1;
+            cell4.innerHTML = json[i].kraj2;
+            cell5.innerHTML = json[i].wynik_kraj_1;
+            cell6.innerHTML = json[i].wynik_kraj_2;
+        }
+    }
+
+    function clearTable(table) {
+        for (let i=table.rows.length-1; i>=0;i--) {
+            table.deleteRow(i)
+        }
+    }
+
+    function renderCountryGamesTable(json) {
+        var table = document.getElementById("countryGamesTable");
+        clearTable(table);
+        for (let i=0; i<json.length;i++) {
+            var row = table.insertRow(i);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            cell1.innerHTML = json[i].id;
+            cell2.innerHTML = json[i].data;
+            cell3.innerHTML = json[i].kraj1;
+            cell4.innerHTML = json[i].kraj2;
+            cell5.innerHTML = json[i].wynik_kraj_1;
+            cell6.innerHTML = json[i].wynik_kraj_2;
+        }
+    }
+
+    function fetchAllGames() {
+        fetch('http://localhost:8081/listGames')
+        .then(response => response.json())
+        .then(json => renderTable(json));
+    }
+
+    function fetchAllGamesOfCountry(name) {
+        fetch('http://localhost:8081/'+name)
+        .then(response => response.json())
+        .then(json => renderCountryGamesTable(json));
+    }
+
+    function postJSON(id,data, kraj1, kraj2, wynik_kraj_1, wynik_kraj_2) {
+        json = {};
+        json.id = id;
+        json.data = data;
+        json.kraj1 = kraj1;
+        json.kraj2 = kraj2;
+        json.wynik_kraj_1 = wynik_kraj_1;
+        json.wynik_kraj_2 = wynik_kraj_2;
+        fetch('http://localhost:8081/addGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+            body: JSON.stringify(json),
+        })
+        .then(response => response.json())
+        .then(json => window.location.reload());
+    }
+</script>
+<style>
+    body {
+        padding: 0!important;
+        margin: 0!important;
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container__top {
+        width: 100%;
+        height: auto;
+        display: flex;
+        margin-bottom: 48px;
+    }
+
+    .container__bottom {
+        width: 100%;
+        height: auto;
+    }
+
+    .container__table {
+        width: 50%;
+    }
+
+    .container__table table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid;
+    }
+
+    td, th {
+        padding: 8px 16px;
+    }
+</style>
+</head>
+<body onload="fetchAllGames()">
+    <div class="container">
+        <div class="container__top">
+            <div class="container__table">
+                <h3>Wszystkie mecze</h3>
+                <table id="gamesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Kraj1</th>
+                            <th>Kraj2</th>
+                            <th>Wynik Kraj 1</th>
+                            <th>Wynik Kraj 2</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="container__table">
+                <h3>Mecze wybranego kraju</h3>
+                <form name="countryGames">
+                    <label>Wybierz kraj:</label>
+                    <select name="countries" id="country">
+                        <option value="Argentyna">Argentyna</option>
+                        <option value="Francja">Francja</option>
+                        <option value="Maroko">Maroko</option>
+                        <option value="Katar">Katar</option>
+                        <option value="Ekwador">Ekwador</option>
+                        <option value="Senegeal">Senegeal</option>
+                        <option value="Holandia">Holandia</option>
+                        <option value="Anglia">Anglia</option>
+                        <option value="Iran">Iran</option>
+                        <option value="USA">USA</option>
+                        <option value="Walia">Walia</option>
+                        <option value="Arabia Saudyjska">Arabia Saudyjska</option>
+                        <option value="Meksyk">Meksyk</option>
+                        <option value="Polska">Polska</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Dania">Dania</option>
+                        <option value="Tunezja">Tunezja</option>
+                        <option value="Hiszpania">Hiszpania</option>
+                        <option value="Kostaryka">Kostaryka</option>
+                        <option value="Niemcy">Niemcy</option>
+                        <option value="Japonia">Japonia</option>
+                        <option value="Belgia">Belgia</option>
+                        <option value="Kanada">Kanada</option>
+                        <option value="Chorwacja">Chorwacja</option>
+                        <option value="Brazylia">Brazylia</option>
+                        <option value="Serbia">Serbia</option>
+                        <option value="Szwajcaria">Szwajcaria</option>
+                        <option value="Kamerun">Kamerun</option>
+                        <option value="Portugalia">Portugalia</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Urugwaj">Urugwaj</option>
+                        <option value="Korea Płd.">Korea Płd.</option>
+                    </select><br/>
+                    <button 
+                        type="button"
+                        onClick="fetchAllGamesOfCountry(document.getElementById('country').value)"
+                    >Pokaż mecze</button>
+                </form>
+                <br/>
+                <br/>
+                <table id="countryGamesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Kraj1</th>
+                            <th>Kraj2</th>
+                            <th>Wynik Kraj 1</th>
+                            <th>Wynik Kraj 2</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="container__bottom">
+            <h3>Dodaj mecz</h3>
+            <form name="form2">
+            id: <input type="number" name="id"/><br/>
+            data: <input type="text" name="data"/><br/>
+            kraj1: 
+            <select name="kraj1">
+                <option value="Argentyna">Argentyna</option>
+                <option value="Francja">Francja</option>
+                <option value="Maroko">Maroko</option>
+                <option value="Katar">Katar</option>
+                <option value="Ekwador">Ekwador</option>
+                <option value="Senegeal">Senegeal</option>
+                <option value="Holandia">Holandia</option>
+                <option value="Anglia">Anglia</option>
+                <option value="Iran">Iran</option>
+                <option value="USA">USA</option>
+                <option value="Walia">Walia</option>
+                <option value="Arabia Saudyjska">Arabia Saudyjska</option>
+                <option value="Meksyk">Meksyk</option>
+                <option value="Polska">Polska</option>
+                <option value="Australia">Australia</option>
+                <option value="Dania">Dania</option>
+                <option value="Tunezja">Tunezja</option>
+                <option value="Hiszpania">Hiszpania</option>
+                <option value="Kostaryka">Kostaryka</option>
+                <option value="Niemcy">Niemcy</option>
+                <option value="Japonia">Japonia</option>
+                <option value="Belgia">Belgia</option>
+                <option value="Kanada">Kanada</option>
+                <option value="Chorwacja">Chorwacja</option>
+                <option value="Brazylia">Brazylia</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Szwajcaria">Szwajcaria</option>
+                <option value="Kamerun">Kamerun</option>
+                <option value="Portugalia">Portugalia</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Urugwaj">Urugwaj</option>
+                <option value="Korea Płd.">Korea Płd.</option>
+            </select><br/>
+            kraj2: 
+            <select name="kraj2">
+                <option value="Argentyna">Argentyna</option>
+                <option value="Francja">Francja</option>
+                <option value="Maroko">Maroko</option>
+                <option value="Katar">Katar</option>
+                <option value="Ekwador">Ekwador</option>
+                <option value="Senegeal">Senegeal</option>
+                <option value="Holandia">Holandia</option>
+                <option value="Anglia">Anglia</option>
+                <option value="Iran">Iran</option>
+                <option value="USA">USA</option>
+                <option value="Walia">Walia</option>
+                <option value="Arabia Saudyjska">Arabia Saudyjska</option>
+                <option value="Meksyk">Meksyk</option>
+                <option value="Polska">Polska</option>
+                <option value="Australia">Australia</option>
+                <option value="Dania">Dania</option>
+                <option value="Tunezja">Tunezja</option>
+                <option value="Hiszpania">Hiszpania</option>
+                <option value="Kostaryka">Kostaryka</option>
+                <option value="Niemcy">Niemcy</option>
+                <option value="Japonia">Japonia</option>
+                <option value="Belgia">Belgia</option>
+                <option value="Kanada">Kanada</option>
+                <option value="Chorwacja">Chorwacja</option>
+                <option value="Brazylia">Brazylia</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Szwajcaria">Szwajcaria</option>
+                <option value="Kamerun">Kamerun</option>
+                <option value="Portugalia">Portugalia</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Urugwaj">Urugwaj</option>
+                <option value="Korea Płd.">Korea Płd.</option>
+            </select><br/>
+            wynik_kraj_1: <input type="number" name="wynik_kraj_1"/><br/>
+            wynik_kraj_2: <input type="number" name="wynik_kraj_2"/><br/>
+            <button type="button"
+            onClick="postJSON(
+                document.forms['form2']['id'].value,
+                document.forms['form2']['data'].value,
+                document.forms['form2']['kraj1'].value,
+                document.forms['form2']['kraj2'].value,
+                document.forms['form2']['wynik_kraj_1'].value,
+                document.forms['form2']['wynik_kraj_2'].value,
+                )">
+            Call POST</button><br/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
