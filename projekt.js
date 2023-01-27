@@ -1,12 +1,8 @@
-const swaggerUi = require('swagger-ui-express');
-swaggerDocument = require('./swagger_output.json');
-
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
