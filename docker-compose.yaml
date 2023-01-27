@@ -10,6 +10,8 @@ services:
       - MYSQL_USER=projekt
       - MYSQL_PASSWORD=projekt
     restart: always
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
 
   app_api:
       image: node:latest
